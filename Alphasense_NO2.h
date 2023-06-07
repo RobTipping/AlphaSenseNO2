@@ -24,7 +24,7 @@ typedef struct{
 
 uint8_t ALPHA_NO2_Initialise(ALPHA_NO2 *dev, I2C_HandleTypeDef *i2cHandle, uint16_t we_zero_electronic,uint16_t we_zero_total,uint16_t ae_zero_electronic,uint16_t ae_zero_total, float sensitivity);
 
-float getNO2(ALPHA_NO2 *dev, uint8_t temprature);
+float getNO2(ALPHA_NO2 *dev, uint8_t temperature);
 
 
 #endif /* INC_ALPHASENSE_NO2_H_ */
