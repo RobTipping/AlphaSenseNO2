@@ -11,6 +11,10 @@
 
 ADS1X15 ADS1115;
 
+int16_t ntLookUpTable[] = {130,127,124,121,118,115,112,109,106,103,100,96,92,88,84,80,76,72,68,64,60,58,56,54,52,50,48,46,44,42,40,
+		38,36,34,32,30,28,26,24,22,20,3,-14,-31,-48,-65,-82,-99,-116,-133,-150};
+
+
 uint8_t ALPHA_NO2_Initialise(ALPHA_NO2 *dev, I2C_HandleTypeDef *i2cHandle, uint16_t we_zero_electronic,uint16_t we_zero_total,uint16_t ae_zero_electronic,uint16_t ae_zero_total, float sensitivity)
 {
 	ADS1X15_Initialise(&ADS1115, i2cHandle);
@@ -24,7 +28,7 @@ uint8_t ALPHA_NO2_Initialise(ALPHA_NO2 *dev, I2C_HandleTypeDef *i2cHandle, uint1
 
 }
 
-float getNO2(ALPHA_NO2 *dev)
+float getNO2(ALPHA_NO2 *dev, uint8_t temprature)
 {
 	float op1 = 0.0;
 	float op2 = 0.0;
@@ -47,6 +51,6 @@ float getNO2(ALPHA_NO2 *dev)
 	op1 = (convertToMilliVolts(&ADS1115, (uint32_t)(op1/numberSamples))) - dev-> we_zero_electronic;
 	op2 = (convertToMilliVolts(&ADS1115, (uint32_t)(op2/numberSamples))) - dev-> ae_zero_electronic;
 
-	return (op1-op2) / dev-> sensitivity;
+	return (op1 - (ntLookUpTable[temprature] / 100) * op2) / dev-> sensitivity;
 
 }
