@@ -28,7 +28,7 @@ uint8_t ALPHA_NO2_Initialise(ALPHA_NO2 *dev, I2C_HandleTypeDef *i2cHandle, uint1
 
 }
 
-float getNO2(ALPHA_NO2 *dev, uint8_t temprature)
+float getNO2(ALPHA_NO2 *dev, uint8_t temperature)
 {
 	float op1 = 0.0;
 	float op2 = 0.0;
@@ -51,6 +51,6 @@ float getNO2(ALPHA_NO2 *dev, uint8_t temprature)
 	op1 = (convertToMilliVolts(&ADS1115, (uint32_t)(op1/numberSamples))) - dev-> we_zero_electronic;
 	op2 = (convertToMilliVolts(&ADS1115, (uint32_t)(op2/numberSamples))) - dev-> ae_zero_electronic;
 
-	return (op1 - (ntLookUpTable[temprature] / 100) * op2) / dev-> sensitivity;
+	return (op1 - (ntLookUpTable[temperature] / 100) * op2) / dev-> sensitivity;
 
 }
